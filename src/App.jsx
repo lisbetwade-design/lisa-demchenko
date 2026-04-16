@@ -70,14 +70,23 @@ function Nav() {
         <a href="#" className="font-serif font-bold text-[#1A1730] text-lg">
           Lisa Demchenko<span style={{ color: PURPLE }}>.</span>
         </a>
-        <a
-          href="https://processtopixels.studio/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="hidden md:inline-flex items-center gap-2 bg-[#1A1730] text-white text-sm font-semibold px-5 py-2.5 hover:bg-[#8DAA44] transition-colors"
-        >
-          Let's work together
-        </a>
+        <div className="hidden md:flex items-center gap-3">
+          <a
+            href="/Elizaveta Dobrydneva - CV.pdf"
+            download
+            className="text-sm font-semibold text-[#1A1730] hover:text-[#5C3AFF] transition-colors"
+          >
+            Download CV
+          </a>
+          <a
+            href="https://processtopixels.studio/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 bg-[#1A1730] text-white text-sm font-semibold px-5 py-2.5 hover:bg-[#8DAA44] transition-colors"
+          >
+            Let's work together
+          </a>
+        </div>
         <button className="md:hidden flex flex-col gap-1.5" aria-label="Menu">
           <span className="block w-6 h-0.5 bg-[#1A1730]" />
           <span className="block w-6 h-0.5 bg-[#1A1730]" />
@@ -538,9 +547,9 @@ const TESTIMONIALS = [
     role: 'Founder, Stndby',
   },
   {
-    quote: "Lisa is a great friend more than a freelancer! She understands the client and asks the right questions. Will surely recommend.",
-    name: 'Ashok Sryvasan',
-    role: 'Founder, Byte',
+    quote: "Lisa was truly amazing to work with. She was thoughtful, thorough, and the quality of her work was great. She has amazing attention to detail and is really hard working. Would recommend working with her!",
+    name: 'Marina Romero',
+    role: 'CMO, o.xyz',
   },
   {
     quote: "Your work has made organizing projects much easier, and I really appreciate the thought and effort you put into designing it.",

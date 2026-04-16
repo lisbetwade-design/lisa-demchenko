@@ -1,0 +1,55 @@
+/* App-level overrides — Tailwind handles the rest */
+
+/* ─── Work showcase grid ─────────────────────────────────────── */
+.work-grid-section {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  height: 860px;
+  overflow: hidden;
+  padding: 0 8px;
+  border-top: 1px solid #EBEBEB;
+  border-bottom: 1px solid #EBEBEB;
+}
+
+.work-col {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  will-change: transform;
+}
+
+@keyframes scroll-up {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-50%); }
+}
+
+@keyframes scroll-down {
+  from { transform: translateY(-50%); }
+  to   { transform: translateY(0); }
+}
+
+.work-col-up {
+  animation: scroll-up linear infinite;
+  animation-fill-mode: both;
+}
+
+.work-col-down {
+  animation: scroll-down linear infinite;
+  animation-fill-mode: both;
+}
+
+.work-grid-item {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+  flex-shrink: 0;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .work-grid-section {
+    grid-template-columns: repeat(2, 1fr);
+    height: 480px;
+  }
+}

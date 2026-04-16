@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import './App.css'
+import { Analytics } from '@vercel/analytics/react'
 import portrait from './IMG_7244 1.png'
 import paprrImg from './paprr.png'
 import claudeGuideImg from './claude-guide.png'
@@ -886,6 +887,7 @@ export default function App() {
         <CTABanner />
       </main>
       <Footer />
+      <Analytics />
     </>
   )
 }

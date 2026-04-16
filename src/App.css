@@ -1,5 +1,68 @@
 /* App-level overrides — Tailwind handles the rest */
 
+/* ─── Scroll reveal ──────────────────────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+
+/* ─── Hero stagger ───────────────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.hero-item {
+  opacity: 0;
+  animation: fadeUp 0.65s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+.hero-item:nth-child(1) { animation-delay: 0.05s; }
+.hero-item:nth-child(2) { animation-delay: 0.18s; }
+.hero-item:nth-child(3) { animation-delay: 0.30s; }
+.hero-item:nth-child(4) { animation-delay: 0.42s; }
+.hero-item:nth-child(5) { animation-delay: 0.54s; }
+
+/* ─── Nav shadow on scroll ───────────────────────────────────── */
+.nav-shadow {
+  box-shadow: 0 2px 20px rgba(26, 23, 48, 0.07);
+  transition: box-shadow 0.3s ease;
+}
+
+/* ─── Timeline dot ───────────────────────────────────────────── */
+.timeline-dot {
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+.timeline-dot:hover {
+  transform: scale(1.8);
+  background-color: #8DAA44;
+}
+
+/* ─── Link underline grow ────────────────────────────────────── */
+.link-underline {
+  position: relative;
+}
+.link-underline::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: currentColor;
+  transition: width 0.25s ease;
+}
+.link-underline:hover::after {
+  width: 100%;
+}
+
 /* ─── Work showcase grid ─────────────────────────────────────── */
 .work-grid-section {
   display: grid;

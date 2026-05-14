@@ -121,26 +121,69 @@ function Hero() {
           <span className="font-semibold text-[#5C3AFF]">"AI-Powered Product Design Workflows"</span> guide.
         </p>
         <div className="hero-item flex flex-wrap gap-3">
-          <a
-            href="https://contra.com/elizaveta_demchenko_nwbaq2e9"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-[#1A1730] text-white text-sm font-semibold px-6 py-3 hover:bg-[#8DAA44] transition-colors"
-          >
-            View my work
-          </a>
-          <a
-            href="https://processtopixels.substack.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 border border-[#1A1730] text-[#1A1730] text-sm font-semibold px-6 py-3 hover:bg-[#F2F4ED] transition-colors"
-          >
-            Read the blog
-          </a>
+          {[
+            {
+              label: 'Twitter',
+              href: 'https://x.com/llsbetdigital',
+              icon: (
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
+                  <path d="M18.244 2H21l-6.52 7.45L22 22h-6.84l-4.78-6.27L4.8 22H2l7-7.99L1.5 2h6.99l4.32 5.71L18.244 2Zm-1.2 18h1.5L7.04 4H5.46l11.584 16Z" />
+                </svg>
+              ),
+            },
+            {
+              label: 'LinkedIn',
+              href: 'https://www.linkedin.com/in/lisa-demchenko-5a7490130/',
+              icon: (
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
+                  <path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.37V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.59 0 4.26 2.36 4.26 5.43v6.31ZM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13ZM7.12 20.45H3.56V9h3.56v11.45ZM22.23 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.46c.98 0 1.77-.77 1.77-1.72V1.72C24 .77 23.21 0 22.23 0Z" />
+                </svg>
+              ),
+            },
+            {
+              label: 'Substack',
+              href: 'https://processtopixels.substack.com/',
+              icon: (
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
+                  <path d="M22.539 8.242H1.46V5.406h21.08v2.836ZM1.46 10.812V24L12 18.11 22.54 24V10.812H1.46ZM22.54 0H1.46v2.836h21.08V0Z" />
+                </svg>
+              ),
+            },
+            {
+              label: 'Contra',
+              href: 'https://contra.com/elizaveta_demchenko_nwbaq2e9',
+              icon: (
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
+                  <path d="M12 2a10 10 0 1 0 7.07 17.07l-2.12-2.12A7 7 0 1 1 19 12h3A10 10 0 0 0 12 2Z" />
+                </svg>
+              ),
+            },
+          ].map(({ label, href, icon }) => (
+            <a
+              key={label}
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={label}
+              className="inline-flex items-center justify-center w-12 h-12 bg-[#8DAA44] text-white hover:bg-[#1A1730] transition-colors"
+            >
+              {icon}
+            </a>
+          ))}
         </div>
       </div>
       <div className="flex justify-center md:justify-end">
-        <img src={portrait} alt="Lisa Demchenko" className="object-cover object-top" style={{ width: 420, height: 500 }} />
+        <img
+          src={portrait}
+          alt="Lisa Demchenko"
+          className="object-cover object-top"
+          style={{
+            width: 420,
+            height: 500,
+            clipPath:
+              'polygon(24px 0, calc(100% - 24px) 0, 100% 24px, 100% calc(100% - 24px), calc(100% - 24px) 100%, 24px 100%, 0 calc(100% - 24px), 0 24px)',
+          }}
+        />
       </div>
     </section>
   )
@@ -346,8 +389,9 @@ const BUILDS = [
     title: 'Paprr',
     subtitle: 'Mobile App',
     desc: 'A minimal paper-feel note-taking app for designers who think better with pen and paper.',
-    tags: [{ label: 'Soon on App Store', tool: false }],
+    tags: [{ label: 'On App Store', tool: false }],
     img: paprrImg,
+    href: 'https://apps.apple.com/be/app/paprr/id6760342520',
   },
   {
     num: '02',
@@ -379,6 +423,16 @@ const BUILDS = [
     href: 'https://uxai.directory/',
     preview: 'https://uxai.directory/',
   },
+  {
+    num: '05',
+    title: 'AI-Powered Product Design Workflows',
+    subtitle: 'Guide',
+    desc: 'A practical guide showing exactly how AI fits inside real design work — from research to handoff, with annotated prompts you can use today.',
+    tags: [{ label: 'Live', tool: false }],
+    href: 'https://pixelandprocess.gumroad.com/l/aipowereddesignguide',
+    preview: 'https://pixelandprocess.gumroad.com/l/aipowereddesignguide',
+    cta: 'Get it',
+  },
 ]
 
 function Building() {
@@ -394,7 +448,7 @@ function Building() {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-[#EBEBEB] border border-[#EBEBEB]">
-        {BUILDS.map(({ title, subtitle, desc, tags, img, href, preview }) => (
+        {BUILDS.map(({ title, subtitle, desc, tags, img, href, preview, cta }) => (
           <div key={title} className="bg-white p-8 hover:bg-[#F2F4ED] transition-colors flex flex-col justify-between gap-8">
             <div className="flex items-start justify-end gap-4">
               <div className="flex flex-wrap gap-1.5 justify-end">
@@ -433,14 +487,14 @@ function Building() {
               <p className="text-[10px] font-semibold tracking-[0.12em] uppercase text-[#1A1730] opacity-40 mb-2">{subtitle}</p>
               <h3 className="font-serif font-bold text-[#1A1730] text-xl mb-3 leading-snug">{title}</h3>
               <p className="text-sm leading-relaxed text-[#1A1730] opacity-65">{desc}</p>
-              {href && !preview && (
+              {href && (!preview || cta) && (
                 <a
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5 mt-4 text-sm font-semibold text-[#5C3AFF] hover:text-[#8DAA44] transition-colors"
                 >
-                  Get it →
+                  {cta || 'Get it'} →
                 </a>
               )}
             </div>

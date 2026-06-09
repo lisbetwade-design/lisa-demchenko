@@ -1,0 +1,28 @@
+@import "tailwindcss";
+
+:root {
+  --navy: #1A1730;
+  --purple: #5C3AFF;
+  --purple-soft: #7B5FFF;
+  --purple-pale: #EDE8FF;
+  --olive: #8DAA44;
+  --sage: #a3c050;
+  --offwhite: #FAFAFA;
+  --warm-grey: #EBEBEB;
+  --hover-tint: #F2F4ED;
+  --deep-black: #0f0d1f;
+
+  font-family: 'Cabinet Grotesk', system-ui, sans-serif;
+  color: var(--navy);
+  background: var(--offwhite);
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  margin: 0;
+  background: var(--offwhite);
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Playfair Display', Georgia, serif;
+}

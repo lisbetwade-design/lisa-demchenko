@@ -4,6 +4,7 @@ import { Analytics } from '@vercel/analytics/react'
 import portrait from './IMG_7244 1.png'
 import paprrImg from './paprr.png'
 import claudeGuideImg from './claude-guide.png'
+import reviuImg from './reviu.png'
 
 // ─── Brand tokens as JS constants ───────────────────────────────────────────
 const PURPLE = '#5C3AFF'
@@ -439,6 +440,7 @@ const BUILDS = [
     subtitle: 'Figma Plugin',
     desc: 'A Figma plugin that brings structured design review right into your canvas.',
     tags: [{ label: 'On Figma Community', tool: true }],
+    img: reviuImg,
     href: 'https://www.figma.com/community/plugin/1635632275322551079/reviu',
     cta: 'Try it',
   },

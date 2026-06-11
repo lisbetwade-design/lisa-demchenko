@@ -5,6 +5,8 @@ import portrait from './IMG_7244 1.png'
 import paprrImg from './paprr.png'
 import claudeGuideImg from './claude-guide.png'
 import reviuImg from './reviu.png'
+import { CASE_STUDIES, getCaseStudy } from './caseStudyData'
+import CaseStudyPage from './CaseStudyPage'
 
 // ─── Brand tokens as JS constants ───────────────────────────────────────────
 const PURPLE = '#5C3AFF'
@@ -69,14 +71,14 @@ function Nav() {
   return (
     <nav className={`border-b border-[#EBEBEB] bg-[#FAFAFA] sticky top-0 z-50 transition-shadow duration-300 ${scrolled ? 'nav-shadow' : ''}`}>
       <div className="max-w-6xl mx-auto px-6 flex items-center justify-between h-16">
-        <a href="#" className="font-serif font-bold text-[#1A1730] text-lg">
+        <a href="#/" className="font-serif text-[#1A1730] text-lg">
           Lisa Demchenko<span style={{ color: PURPLE }}>.</span>
         </a>
         <div className="hidden md:flex items-center gap-3">
           <a
             href="/Elizaveta Dobrydneva - CV.pdf"
             download
-            className="text-sm font-semibold text-[#1A1730] hover:text-[#5C3AFF] transition-colors"
+            className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[#6B6880] hover:text-[#1A1730] transition-colors"
           >
             Download CV
           </a>
@@ -84,7 +86,7 @@ function Nav() {
             href="https://processtopixels.studio/"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-[#1A1730] text-white text-sm font-semibold px-5 py-2.5 hover:bg-[#8DAA44] transition-colors"
+            className="btn btn-accent"
           >
             Let's work together
           </a>
@@ -108,7 +110,7 @@ function Hero() {
         <p className="hero-item text-xs font-semibold tracking-[0.12em] uppercase text-[#8DAA44] mb-6">
           Product Designer · Strategist · Solopreneur
         </p>
-        <h1 className="hero-item font-serif font-bold text-[#1A1730] leading-tight mb-6" style={{ fontSize: 'clamp(44px, 6vw, 72px)' }}>
+        <h1 className="hero-item font-serif text-[#1A1730] leading-[1.35] mb-6" style={{ fontSize: 'clamp(32px, 3.8vw, 56px)' }}>
           Hi, I'm Lisa<span style={{ color: PURPLE }}>.</span>
         </h1>
         <p className="hero-item text-base leading-relaxed text-[#1A1730] opacity-75 mb-8 max-w-lg">
@@ -166,7 +168,7 @@ function Hero() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label={label}
-              className="inline-flex items-center justify-center w-12 h-12 bg-[#8DAA44] text-white hover:bg-[#1A1730] transition-colors"
+              className="inline-flex items-center justify-center w-12 h-12 bg-[#8DAA44] text-white hover:bg-[#5C3AFF] transition-colors"
             >
               {icon}
             </a>
@@ -277,7 +279,7 @@ function Projects() {
           <p className="text-xs font-semibold tracking-[0.12em] uppercase text-[#8DAA44] mb-3">
             Recent Projects
           </p>
-          <h2 className="font-serif font-bold text-[#1A1730] leading-tight" style={{ fontSize: 'clamp(34px, 4vw, 54px)' }}>
+          <h2 className="font-serif text-[#1A1730] leading-[1.35]" style={{ fontSize: 'clamp(24px, 2.8vw, 38px)' }}>
             Product design<br />
             <em className="text-[#5C3AFF]">and exploration.</em>
           </h2>
@@ -286,7 +288,7 @@ function Projects() {
           href="https://contra.com/elizaveta_demchenko_nwbaq2e9"
           target="_blank"
           rel="noopener noreferrer"
-          className="hidden md:inline-flex border border-[#1A1730] text-[#1A1730] text-sm font-semibold px-5 py-2.5 hover:bg-[#F2F4ED] transition-colors whitespace-nowrap"
+          className="hidden md:inline-flex btn btn-outline whitespace-nowrap"
         >
           View all work
         </a>
@@ -317,10 +319,99 @@ function Projects() {
           href="https://contra.com/elizaveta_demchenko_nwbaq2e9"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex border border-[#1A1730] text-[#1A1730] text-sm font-semibold px-5 py-2.5 hover:bg-[#F2F4ED] transition-colors"
+          className="inline-flex btn btn-outline"
         >
           View all work
         </a>
+      </div>
+    </section>
+  )
+}
+
+// ─── Projects & Case Studies ─────────────────────────────────────────────────
+// Content lives in caseStudyData.js. Each card links to a full page at #/work/<slug>.
+function CaseStudyCard({ cs }) {
+  const { slug, accent, category, client, title, summary, cardImage, metric, metricLabel, meta } = cs
+  return (
+    <a
+      href={`#/work/${slug}`}
+      className="group bg-white flex flex-col hover:bg-[#F2F4ED] transition-colors"
+      style={{ '--cs-accent': accent }}
+    >
+      {/* Image */}
+      <div className="relative overflow-hidden bg-[#F2F4ED]" style={{ aspectRatio: '16 / 10' }}>
+        <img
+          src={cardImage}
+          alt={client}
+          loading="lazy"
+          className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
+        />
+        <span className="absolute top-4 left-4 text-[10px] font-semibold tracking-[0.12em] uppercase bg-white/95 px-2.5 py-1" style={{ color: accent }}>
+          {category}
+        </span>
+      </div>
+
+      {/* Body */}
+      <div className="flex flex-col flex-1 p-8">
+        <h3 className="font-serif text-[#1A1730] text-2xl mb-2 leading-snug transition-colors group-hover:[color:var(--cs-accent)]">
+          {client}
+        </h3>
+        <p className="text-sm leading-relaxed text-[#1A1730] opacity-65 mb-8">
+          {summary}
+        </p>
+
+        {/* Meta + metric */}
+        <div className="mt-auto grid grid-cols-3 gap-4 border-t border-[#EBEBEB] pt-5">
+          <div>
+            <p className="text-[10px] font-semibold tracking-[0.12em] uppercase text-[#1A1730] opacity-40 mb-1">Role</p>
+            <p className="text-xs text-[#1A1730] opacity-70 leading-snug">{meta.role}</p>
+          </div>
+          <div>
+            <p className="text-[10px] font-semibold tracking-[0.12em] uppercase text-[#1A1730] opacity-40 mb-1">Timeline</p>
+            <p className="text-xs text-[#1A1730] opacity-70 leading-snug">{meta.timeline}</p>
+          </div>
+          <div>
+            <p className="text-[10px] font-semibold tracking-[0.12em] uppercase text-[#1A1730] opacity-40 mb-1">Impact</p>
+            <p className="font-serif text-xl leading-none" style={{ color: accent }}>{metric}</p>
+            <p className="text-[10px] text-[#1A1730] opacity-50 leading-snug mt-1">{metricLabel}</p>
+          </div>
+        </div>
+
+        <span className="inline-flex items-center gap-1.5 mt-6 text-sm font-semibold transition-colors group-hover:text-[#8DAA44]" style={{ color: accent }}>
+          Read case study →
+        </span>
+      </div>
+    </a>
+  )
+}
+
+function CaseStudies() {
+  return (
+    <section className="bg-white border-y border-[#EBEBEB]">
+      <div className="max-w-6xl mx-auto px-6 py-20">
+        <div className="flex items-end justify-between mb-12">
+          <div className="reveal">
+            <p className="text-xs font-semibold tracking-[0.12em] uppercase text-[#8DAA44] mb-3">
+              Projects & Case Studies
+            </p>
+            <h2 className="font-serif text-[#1A1730] leading-[1.35]" style={{ fontSize: 'clamp(24px, 2.8vw, 38px)' }}>
+              The thinking<br />
+              <em className="text-[#5C3AFF]">behind the work.</em>
+            </h2>
+          </div>
+          <a
+            href="https://contra.com/elizaveta_demchenko_nwbaq2e9"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hidden md:inline-flex btn btn-outline whitespace-nowrap"
+          >
+            View all work
+          </a>
+        </div>
+
+        <div className="reveal grid grid-cols-1 md:grid-cols-2 gap-px bg-[#EBEBEB] border border-[#EBEBEB]">
+          {CASE_STUDIES.map(cs => <CaseStudyCard key={cs.slug} cs={cs} />)}
+        </div>
       </div>
     </section>
   )
@@ -373,7 +464,7 @@ function ArticleCard({ tag, readTime, title, excerpt, tool, href }) {
         )}
         <span className="text-xs text-[#1A1730] opacity-40 ml-auto">{readTime}</span>
       </div>
-      <h3 className="font-serif font-bold text-[#1A1730] text-xl mb-2 leading-snug group-hover:text-[#5C3AFF] transition-colors">
+      <h3 className="font-serif text-[#1A1730] text-xl mb-2 leading-snug group-hover:text-[#5C3AFF] transition-colors">
         {title}
       </h3>
       <p className="text-sm leading-relaxed text-[#1A1730] opacity-60 max-w-2xl">
@@ -453,7 +544,7 @@ function Building() {
         <p className="text-xs font-semibold tracking-[0.12em] uppercase text-[#8DAA44] mb-3">
           Side Projects
         </p>
-        <h2 className="font-serif font-bold text-[#1A1730] leading-tight" style={{ fontSize: 'clamp(34px, 4vw, 54px)' }}>
+        <h2 className="font-serif text-[#1A1730] leading-[1.35]" style={{ fontSize: 'clamp(24px, 2.8vw, 38px)' }}>
           Things I'm <em className="text-[#5C3AFF]">Building.</em>
         </h2>
       </div>
@@ -496,7 +587,7 @@ function Building() {
             )}
             <div>
               <p className="text-[10px] font-semibold tracking-[0.12em] uppercase text-[#1A1730] opacity-40 mb-2">{subtitle}</p>
-              <h3 className="font-serif font-bold text-[#1A1730] text-xl mb-3 leading-snug">{title}</h3>
+              <h3 className="font-serif text-[#1A1730] text-xl mb-3 leading-snug">{title}</h3>
               <p className="text-sm leading-relaxed text-[#1A1730] opacity-65">{desc}</p>
               {href && (!preview || cta) && (
                 <a
@@ -525,7 +616,7 @@ function Writing() {
             <p className="text-xs font-semibold tracking-[0.12em] uppercase text-[#8DAA44] mb-3">
               Things I've Written
             </p>
-            <h2 className="font-serif font-bold text-[#1A1730] leading-tight" style={{ fontSize: 'clamp(34px, 4vw, 54px)' }}>
+            <h2 className="font-serif text-[#1A1730] leading-[1.35]" style={{ fontSize: 'clamp(24px, 2.8vw, 38px)' }}>
               Real talk from the UX,<br />
               <em className="text-[#5C3AFF]">AI & builder journey.</em>
             </h2>
@@ -534,7 +625,7 @@ function Writing() {
             href="https://medium.com/@llsbet"
             target="_blank"
             rel="noopener noreferrer"
-            className="hidden md:inline-flex border border-[#1A1730] text-[#1A1730] text-sm font-semibold px-5 py-2.5 hover:bg-[#F2F4ED] transition-colors whitespace-nowrap"
+            className="hidden md:inline-flex btn btn-outline whitespace-nowrap"
           >
             View all articles
           </a>
@@ -580,7 +671,7 @@ function TwitterSection() {
           <p className="text-xs font-semibold tracking-[0.12em] uppercase text-[#8DAA44] mb-3">
             On X / Twitter
           </p>
-          <h2 className="font-serif font-bold text-[#1A1730] leading-tight" style={{ fontSize: 'clamp(34px, 4vw, 54px)' }}>
+          <h2 className="font-serif text-[#1A1730] leading-[1.35]" style={{ fontSize: 'clamp(24px, 2.8vw, 38px)' }}>
             Insights from AI-powered workflows<br />
             <em className="text-[#5C3AFF]">and experiments.</em>
           </h2>
@@ -589,7 +680,7 @@ function TwitterSection() {
           href="https://x.com/llsbetdigital"
           target="_blank"
           rel="noopener noreferrer"
-          className="hidden md:inline-flex items-center gap-2 border border-[#1A1730] text-[#1A1730] text-sm font-semibold px-5 py-2.5 hover:bg-[#F2F4ED] transition-colors whitespace-nowrap"
+          className="hidden md:inline-flex items-center gap-2 btn btn-outline whitespace-nowrap"
         >
           <XIcon /> Follow on X
         </a>
@@ -626,12 +717,13 @@ const TESTIMONIALS = [
 
 function Testimonials() {
   return (
-    <section className="max-w-6xl mx-auto px-6 py-20">
+    <section className="px-6 py-20" style={{ background: '#E8F0D2' }}>
+      <div className="max-w-6xl mx-auto">
       <div className="mb-14 reveal">
         <p className="text-xs font-semibold tracking-[0.12em] uppercase text-[#8DAA44] mb-3">
           Some Kind Words
         </p>
-        <h2 className="font-serif font-bold text-[#1A1730] leading-tight" style={{ fontSize: 'clamp(34px, 4vw, 54px)' }}>
+        <h2 className="font-serif text-[#1A1730] leading-[1.35]" style={{ fontSize: 'clamp(24px, 2.8vw, 38px)' }}>
           Designers & founders<br />
           <em className="text-[#5C3AFF]">who trust the work.</em>
         </h2>
@@ -646,7 +738,7 @@ function Testimonials() {
           { num: '15+', label: 'Products designed' },
         ].map(({ num, label }) => (
           <div key={label} className="bg-white px-8 py-8">
-            <div className="font-serif font-bold text-[#5C3AFF] mb-1" style={{ fontSize: 40 }}><StatNumber value={num} /></div>
+            <div className="font-serif text-[#5C3AFF] mb-1" style={{ fontSize: 40 }}><StatNumber value={num} /></div>
             <div className="text-sm text-[#1A1730] opacity-60">{label}</div>
           </div>
         ))}
@@ -656,7 +748,7 @@ function Testimonials() {
       <div className="grid md:grid-cols-3 gap-6">
         {TESTIMONIALS.map(({ quote, name, role }) => (
           <div key={name} className="border border-[#EBEBEB] bg-white p-8 hover:bg-[#F2F4ED] transition-colors">
-            <p className="text-sm leading-relaxed text-[#1A1730] opacity-75 mb-6 italic font-serif">
+            <p className="font-quote text-[#1A1730] opacity-80 mb-6" style={{ fontSize: 17, lineHeight: 1.5 }}>
               "{quote}"
             </p>
             <div>
@@ -666,6 +758,7 @@ function Testimonials() {
           </div>
         ))}
       </div>
+      </div>
     </section>
   )
 }
@@ -673,15 +766,15 @@ function Testimonials() {
 // ─── CTA Banner ───────────────────────────────────────────────────────────────
 function CTABanner() {
   return (
-    <section className="bg-[#1A1730] py-20 px-6">
+    <section className="bg-[#8DAA44] py-20 px-6">
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-8">
         <div>
-          <p className="text-xs font-semibold tracking-[0.12em] uppercase text-[#8DAA44] mb-4">
+          <p className="text-xs font-semibold tracking-[0.12em] uppercase text-[#1A1730] opacity-60 mb-4">
             Work together
           </p>
-          <h2 className="font-serif font-bold text-white leading-tight" style={{ fontSize: 'clamp(28px, 4vw, 48px)' }}>
+          <h2 className="font-serif text-[#1A1730] leading-[1.35]" style={{ fontSize: 'clamp(24px, 2.8vw, 38px)' }}>
             Ready to design something<br />
-            <em className="text-[#5C3AFF]">people actually love?</em>
+            <em className="text-white">people actually love?</em>
           </h2>
         </div>
         <div className="flex flex-wrap gap-4">
@@ -689,7 +782,7 @@ function CTABanner() {
             href="https://cal.com/elizaveta-demchenko-oz4d4o/15min"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-[#5C3AFF] text-white text-sm font-semibold px-7 py-3.5 hover:bg-[#7B5FFF] transition-colors"
+            className="btn btn-accent"
           >
             Book a call
           </a>
@@ -697,7 +790,7 @@ function CTABanner() {
             href="https://processtopixels.studio/"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 border border-white text-white text-sm font-semibold px-7 py-3.5 hover:bg-white hover:text-[#1A1730] transition-colors"
+            className="btn btn-light"
           >
             View services
           </a>
@@ -736,15 +829,15 @@ function Footer() {
     },
   ]
   return (
-    <footer className="bg-[#0f0d1f] border-t border-white/10 text-white px-6 pt-16 pb-10">
+    <footer className="bg-[#FAFAFA] border-t border-[#EBEBEB] text-[#1A1730] px-6 pt-16 pb-10">
       <div className="max-w-6xl mx-auto">
         <div className="grid md:grid-cols-4 gap-12 mb-16">
           {/* Brand */}
           <div>
-            <div className="font-serif font-bold text-white text-xl mb-3">
+            <div className="font-serif text-[#1A1730] text-xl mb-3">
               Process to Pixels<span style={{ color: PURPLE }}>.</span>
             </div>
-            <p className="text-sm text-white/50 leading-relaxed max-w-xs">
+            <p className="text-sm text-[#6B6880] leading-relaxed max-w-xs">
               Strategic product design studio. Pixel by pixel.
             </p>
           </div>
@@ -762,7 +855,7 @@ function Footer() {
                   <li key={label}>
                     <a
                       href={href}
-                      className="text-sm text-white/60 hover:text-white transition-colors"
+                      className="text-sm text-[#6B6880] hover:text-[#1A1730] transition-colors"
                     >
                       {label}
                     </a>
@@ -773,13 +866,13 @@ function Footer() {
             </div>
           ))}
         </div>
-        <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-white/30">
+        <div className="border-t border-[#EBEBEB] pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
+          <p className="text-xs text-[#B0AEC4]">
             © 2025 Lisa Demchenko. All rights reserved.
           </p>
           <div className="flex gap-6">
             {['Privacy Policy', 'Terms of Service'].map(l => (
-              <a key={l} href="#" className="text-xs text-white/30 hover:text-white/60 transition-colors">
+              <a key={l} href="#" className="text-xs text-[#B0AEC4] hover:text-[#1A1730] transition-colors">
                 {l}
               </a>
             ))}
@@ -812,7 +905,7 @@ function About() {
           <p className="text-xs font-semibold tracking-[0.12em] uppercase text-[#8DAA44] mb-3">
             About
           </p>
-          <h2 className="font-serif font-bold text-[#1A1730] leading-tight" style={{ fontSize: 'clamp(34px, 4vw, 54px)' }}>
+          <h2 className="font-serif text-[#1A1730] leading-[1.35]" style={{ fontSize: 'clamp(24px, 2.8vw, 38px)' }}>
             Who I <em className="text-[#5C3AFF]">am.</em>
           </h2>
         </div>
@@ -891,7 +984,7 @@ function FeaturedSection() {
           <p className="text-xs font-semibold tracking-[0.12em] uppercase text-[#8DAA44] mb-3">
             Features & Talks
           </p>
-          <h2 className="font-serif font-bold text-[#1A1730] leading-tight" style={{ fontSize: 'clamp(34px, 4vw, 54px)' }}>
+          <h2 className="font-serif text-[#1A1730] leading-[1.35]" style={{ fontSize: 'clamp(24px, 2.8vw, 38px)' }}>
             As seen <em className="text-[#5C3AFF]">out there.</em>
           </h2>
         </div>
@@ -916,7 +1009,7 @@ function FeaturedSection() {
                   {pub}
                 </span>
               </div>
-              <h3 className="font-serif font-bold text-[#1A1730] text-lg mb-3 leading-snug group-hover:text-[#5C3AFF] transition-colors">
+              <h3 className="font-serif text-[#1A1730] text-lg mb-3 leading-snug group-hover:text-[#5C3AFF] transition-colors">
                 {title}
               </h3>
               <p className="text-sm leading-relaxed text-[#1A1730] opacity-60">
@@ -933,24 +1026,50 @@ function FeaturedSection() {
   )
 }
 
+// ─── Home ─────────────────────────────────────────────────────────────────────
+function Home() {
+  useScrollReveal()
+  return (
+    <main>
+      <Hero />
+      <QuickLinks />
+      <Projects />
+      <CaseStudies />
+      <Building />
+      <Writing />
+      <About />
+      <FeaturedSection />
+      <TwitterSection />
+      <Testimonials />
+      <CTABanner />
+    </main>
+  )
+}
+
+// ─── Hash router ──────────────────────────────────────────────────────────────
+function useHashRoute() {
+  const [hash, setHash] = useState(() => window.location.hash)
+  useEffect(() => {
+    const onChange = () => setHash(window.location.hash)
+    window.addEventListener('hashchange', onChange)
+    return () => window.removeEventListener('hashchange', onChange)
+  }, [])
+  return hash
+}
+
 // ─── App ──────────────────────────────────────────────────────────────────────
 export default function App() {
-  useScrollReveal()
+  const hash = useHashRoute()
+  const match = hash.match(/^#\/work\/([\w-]+)/)
+  const cs = match ? getCaseStudy(match[1]) : null
+
+  // Scroll to top whenever the route changes
+  useEffect(() => { window.scrollTo(0, 0) }, [hash])
+
   return (
     <>
       <Nav />
-      <main>
-        <Hero />
-        <QuickLinks />
-        <Projects />
-        <Building />
-        <Writing />
-        <About />
-        <FeaturedSection />
-        <TwitterSection />
-        <Testimonials />
-        <CTABanner />
-      </main>
+      {cs ? <CaseStudyPage cs={cs} /> : <Home />}
       <Footer />
       <Analytics />
     </>

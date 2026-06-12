@@ -436,12 +436,12 @@ function CaseStudies() {
 // ─── Writing ──────────────────────────────────────────────────────────────────
 const ARTICLES = [
   {
-    tag: 'Process',
-    readTime: '6 min read',
-    title: 'Teaming With AI: Building a Design Library with ChatGPT',
-    excerpt: 'How I used AI to accelerate component documentation and cut library setup time by 60%.',
-    tool: 'MagicPathAI',
-    href: 'https://medium.com/ux-planet/teaming-up-with-ai-building-a-design-library-with-chatgpt-magicpathai-26f18473b2fa?source=user_profile_page---------5-------------578bc4cbe04e----------------------',
+    tag: 'AI Workflow',
+    readTime: '7 min read',
+    title: 'How to Write a DESIGN.md File Claude Can Actually Use',
+    excerpt: 'A practical guide to documenting your design system so Claude produces UI that actually matches your intent.',
+    tool: 'Claude',
+    href: 'https://medium.com/user-experience-design-1/how-to-write-a-design-md-file-claude-can-actually-use-2d89d183f823',
   },
   {
     tag: 'Design Systems',

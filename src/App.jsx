@@ -123,10 +123,8 @@ function Hero() {
           Hi, I'm Lisa<span style={{ color: PURPLE }}>.</span>
         </motion.h1>
         <motion.p variants={fadeUp} className="text-base leading-relaxed text-[#1A1730] opacity-75 mb-8 max-w-lg">
-          I turn messy stakeholder feedback and complex data into clean, intuitive
-          interfaces — mostly mobile apps and SaaS tools. Obsessed with Notion,
-          Figma, and using AI to kill the boring stuff so humans can focus on the
-          brilliant parts.
+          I design products for startups, write about working with AI, and enjoy
+          building small things on the side.
         </motion.p>
         <motion.p variants={fadeUp} className="text-sm text-[#1A1730] opacity-60 mb-10 max-w-md">
           Currently building{' '}
@@ -458,6 +456,14 @@ const ARTICLES = [
     excerpt: "A solo designer's journey at a fast-growing startup and the strategic frameworks that kept me sane.",
     tool: null,
     href: 'https://medium.com/design-bootcamp/essential-principles-of-comprehensive-ux-strategy-1b57cccb6643?source=user_profile_page---------13-------------578bc4cbe04e----------------------',
+  },
+  {
+    tag: 'AI Workflow',
+    readTime: '6 min read',
+    title: "AI Didn't Replace Designers, It Promoted Them",
+    excerpt: 'Why AI tools are elevating designers from pixel-pushers to strategic decision-makers — not making them obsolete.',
+    tool: null,
+    href: 'https://medium.com/user-experience-design-1/ai-didnt-replace-designers-it-promoted-them-5b6d24de4e26',
   },
 ]
 

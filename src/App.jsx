@@ -938,12 +938,25 @@ function About() {
 
         {/* Bio */}
         <div className="grid md:grid-cols-2 gap-12 items-start mb-20">
-          <p className="reveal text-base leading-relaxed text-[#1A1730] opacity-75">
-            I'm a product designer and solopreneur with 6+ years turning messy briefs and complex systems into clean, intuitive interfaces — mostly mobile apps and SaaS tools. I work with startups figuring out product-market fit and scale-ups moving fast. Outside client work I run Process to Pixels, teach AI-powered design, and build side projects that scratch my own itches.
-          </p>
-          <p className="reveal reveal-delay-1 text-base leading-relaxed text-[#1A1730] opacity-75">
-            I'm obsessed with the intersection of design and AI — not as a replacement for creative thinking, but as a tool that removes the boring parts so humans can focus on the brilliant ones. Based in Europe, working with clients worldwide.
-          </p>
+          <div className="reveal space-y-5 text-base leading-relaxed text-[#1A1730] opacity-75">
+            <p>
+              I'm Lisa — product designer, studio founder, and perpetual tinkerer at the edge of design and AI.
+            </p>
+            <p>
+              I spent years doing in-house design at companies that moved fast and broke things (sometimes on purpose), before going independent to do the work I actually care about. Now I run Process to Pixels, a fractional design studio in Brussels, where I partner with startups to help their products look and feel as good as the vision in the founder's head. UX research, product design, design systems — whatever it takes to get there.
+            </p>
+            <p>
+              The other thing I do is write. Process to Pixels on Substack is where I think out loud about designing with AI — not the hype, but the actual workflows, the prompts that work, the shortcuts that don't, and what it means to do this job well when the tools are changing faster than the job descriptions. I share my thoughts and insights on X (Twitter), LinkedIn and Medium as well.
+            </p>
+          </div>
+          <div className="reveal reveal-delay-1 space-y-5 text-base leading-relaxed text-[#1A1730] opacity-75">
+            <p>
+              I live in Brussels with my husband, our toddler, and a dog named Rassol. When I'm not in Figma or Claude, I'm shooting on my old film camera, creating ceramics pieces, enjoying family bike rides or planning the next slow trip somewhere worth getting lost in.
+            </p>
+            <p>
+              If you're a designer trying to figure out how AI fits into your actual practice — or a founder who needs a design partner who gets both the craft and the constraints — you're in the right place.
+            </p>
+          </div>
         </div>
 
         {/* Horizontal timeline */}

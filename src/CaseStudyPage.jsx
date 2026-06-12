@@ -1,5 +1,11 @@
 import { useEffect } from 'react'
+// `motion` is used via namespaced JSX (<motion.div>), which this ESLint config
+// (no eslint-plugin-react) can't detect — hence the disable.
+// eslint-disable-next-line no-unused-vars
+import { motion } from 'motion/react'
 import { CASE_STUDIES } from './caseStudyData'
+
+const EASE = [0.4, 0, 0.2, 1]
 
 // ─── Local scroll reveal (re-runs per case study) ────────────────────────────
 function useReveal(dep) {
@@ -32,16 +38,25 @@ function Hero({ cs }) {
 
   return (
     <header style={{ background: t.bg, color: t.text }}>
-      <div className="max-w-6xl mx-auto px-6 pt-12 pb-0">
-        <a
+      <motion.div
+        className="max-w-6xl mx-auto px-6 pt-12 pb-0"
+        initial="initial"
+        animate="animate"
+        variants={{ animate: { transition: { staggerChildren: 0.1, delayChildren: 0.05 } } }}
+      >
+        <motion.a
+          variants={{ initial: { opacity: 0, y: 16 }, animate: { opacity: 1, y: 0, transition: { duration: 0.55, ease: EASE } } }}
           href="#/"
           className="inline-flex items-center gap-2 text-xs font-semibold tracking-[0.12em] uppercase mb-12 transition-opacity hover:opacity-70"
           style={{ color: t.meta }}
         >
           ← Back to work
-        </a>
+        </motion.a>
 
-        <div className="grid md:grid-cols-12 gap-8 items-end pb-12">
+        <motion.div
+          variants={{ initial: { opacity: 0, y: 16 }, animate: { opacity: 1, y: 0, transition: { duration: 0.55, ease: EASE } } }}
+          className="grid md:grid-cols-12 gap-8 items-end pb-12"
+        >
           <div className="md:col-span-8">
             <p className="text-xs font-semibold tracking-[0.18em] uppercase mb-6" style={{ color: accent }}>
               {client} · {category}
@@ -57,10 +72,11 @@ function Hero({ cs }) {
               {subtitle}
             </p>
           </div>
-        </div>
+        </motion.div>
 
         {/* Meta row */}
-        <div
+        <motion.div
+          variants={{ initial: { opacity: 0, y: 16 }, animate: { opacity: 1, y: 0, transition: { duration: 0.55, ease: EASE } } }}
           className="grid grid-cols-2 md:grid-cols-4 gap-y-6 gap-x-4 py-8"
           style={{ borderTop: `1px solid ${t.rule}`, borderBottom: `1px solid ${t.rule}` }}
         >
@@ -75,17 +91,20 @@ function Hero({ cs }) {
               <p className="text-sm leading-snug" style={{ color: t.text }}>{v}</p>
             </div>
           ))}
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
       {/* Hero image bleeds over the section break. `heroRatio` (e.g. '16 / 9')
           crops to a uniform banner; omit it to show the image in full. */}
       <div className="max-w-6xl mx-auto px-6 pt-12" style={{ marginBottom: -64 }}>
-        <img
+        <motion.img
           src={heroImage}
           alt={typeof cs.title === 'object' ? cs.title.join(' ') : cs.title}
           className={`w-full border border-[#EBEBEB] rounded-[4px] ${cs.heroRatio ? 'object-cover' : 'h-auto'}`}
           style={cs.heroRatio ? { aspectRatio: cs.heroRatio } : undefined}
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, ease: EASE, delay: 0.35 }}
         />
       </div>
     </header>
@@ -392,7 +411,14 @@ function NextProjects({ cs }) {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-[#EBEBEB] border border-[#EBEBEB]">
           {others.map(o => (
-            <a key={o.slug} href={`#/work/${o.slug}`} className="group bg-white flex flex-col hover:bg-[#F2F4ED] transition-colors" style={{ '--cs-accent': o.accent }}>
+            <motion.a
+              key={o.slug}
+              href={`#/work/${o.slug}`}
+              className="group bg-white flex flex-col hover:bg-[#F2F4ED] transition-colors"
+              style={{ '--cs-accent': o.accent }}
+              whileHover={{ y: -4 }}
+              transition={{ duration: 0.3, ease: EASE }}
+            >
               <div className="overflow-hidden bg-[#F2F4ED]" style={{ aspectRatio: '16 / 10' }}>
                 <img src={o.cardImage} alt={o.client} loading="lazy" className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]" />
               </div>
@@ -402,7 +428,7 @@ function NextProjects({ cs }) {
                   {Array.isArray(o.title) ? o.title.join(' ') : o.title}
                 </h3>
               </div>
-            </a>
+            </motion.a>
           ))}
         </div>
       </div>

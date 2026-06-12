@@ -1,6 +1,11 @@
 import { useEffect, useRef, useState } from 'react'
+// `motion` is used via namespaced JSX (<motion.div>), which this ESLint config
+// (no eslint-plugin-react) can't detect — hence the disable.
+// eslint-disable-next-line no-unused-vars
+import { motion, AnimatePresence, MotionConfig } from 'motion/react'
 import './App.css'
 import { Analytics } from '@vercel/analytics/react'
+import { pageVariants, staggerContainer, fadeUp } from './motion'
 import portrait from './IMG_7244 1.png'
 import paprrImg from './paprr.png'
 import claudeGuideImg from './claude-guide.png'
@@ -69,7 +74,11 @@ function Nav() {
     return () => window.removeEventListener('scroll', handler)
   }, [])
   return (
-    <nav className={`border-b border-[#EBEBEB] bg-[#FAFAFA] sticky top-0 z-50 transition-shadow duration-300 ${scrolled ? 'nav-shadow' : ''}`}>
+    <motion.nav
+      initial={{ y: -64, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+      className={`border-b border-[#EBEBEB] bg-[#FAFAFA] sticky top-0 z-50 transition-shadow duration-300 ${scrolled ? 'nav-shadow' : ''}`}>
       <div className="max-w-6xl mx-auto px-6 flex items-center justify-between h-16">
         <a href="#/" className="font-serif text-[#1A1730] text-lg">
           Lisa Demchenko<span style={{ color: PURPLE }}>.</span>
@@ -97,7 +106,7 @@ function Nav() {
           <span className="block w-6 h-0.5 bg-[#1A1730]" />
         </button>
       </div>
-    </nav>
+    </motion.nav>
   )
 }
 
@@ -106,24 +115,24 @@ function Hero() {
   return (
     <section className="max-w-6xl mx-auto px-6 pt-20 pb-16 grid md:grid-cols-2 gap-12 items-center">
       {/* Text */}
-      <div>
-        <p className="hero-item text-xs font-semibold tracking-[0.12em] uppercase text-[#8DAA44] mb-6">
+      <motion.div variants={staggerContainer} initial="initial" animate="animate">
+        <motion.p variants={fadeUp} className="text-xs font-semibold tracking-[0.12em] uppercase text-[#8DAA44] mb-6">
           Product Designer · Strategist · Solopreneur
-        </p>
-        <h1 className="hero-item font-serif text-[#1A1730] leading-[1.35] mb-6" style={{ fontSize: 'clamp(32px, 3.8vw, 56px)' }}>
+        </motion.p>
+        <motion.h1 variants={fadeUp} className="font-serif text-[#1A1730] leading-[1.35] mb-6" style={{ fontSize: 'clamp(32px, 3.8vw, 56px)' }}>
           Hi, I'm Lisa<span style={{ color: PURPLE }}>.</span>
-        </h1>
-        <p className="hero-item text-base leading-relaxed text-[#1A1730] opacity-75 mb-8 max-w-lg">
+        </motion.h1>
+        <motion.p variants={fadeUp} className="text-base leading-relaxed text-[#1A1730] opacity-75 mb-8 max-w-lg">
           I turn messy stakeholder feedback and complex data into clean, intuitive
           interfaces — mostly mobile apps and SaaS tools. Obsessed with Notion,
           Figma, and using AI to kill the boring stuff so humans can focus on the
           brilliant parts.
-        </p>
-        <p className="hero-item text-sm text-[#1A1730] opacity-60 mb-10 max-w-md">
+        </motion.p>
+        <motion.p variants={fadeUp} className="text-sm text-[#1A1730] opacity-60 mb-10 max-w-md">
           Currently building{' '}
           <span className="font-semibold text-[#5C3AFF]">"AI-Powered Product Design Workflows"</span> guide.
-        </p>
-        <div className="hero-item flex flex-wrap gap-3">
+        </motion.p>
+        <motion.div variants={fadeUp} className="flex flex-wrap gap-3">
           {[
             {
               label: 'Twitter',
@@ -173,9 +182,14 @@ function Hero() {
               {icon}
             </a>
           ))}
-        </div>
-      </div>
-      <div className="flex justify-center md:justify-end">
+        </motion.div>
+      </motion.div>
+      <motion.div
+        className="flex justify-center md:justify-end"
+        initial={{ opacity: 0, scale: 0.96 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.7, ease: [0.4, 0, 0.2, 1], delay: 0.15 }}
+      >
         <img
           src={portrait}
           alt="Lisa Demchenko"
@@ -187,7 +201,7 @@ function Hero() {
               'polygon(24px 0, calc(100% - 24px) 0, 100% 24px, 100% calc(100% - 24px), calc(100% - 24px) 100%, 24px 100%, 0 calc(100% - 24px), 0 24px)',
           }}
         />
-      </div>
+      </motion.div>
     </section>
   )
 }
@@ -333,10 +347,12 @@ function Projects() {
 function CaseStudyCard({ cs }) {
   const { slug, accent, category, client, title, summary, cardImage, metric, metricLabel, meta } = cs
   return (
-    <a
+    <motion.a
       href={`#/work/${slug}`}
       className="group bg-white flex flex-col hover:bg-[#F2F4ED] transition-colors"
       style={{ '--cs-accent': accent }}
+      whileHover={{ y: -4 }}
+      transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
     >
       {/* Image */}
       <div className="relative overflow-hidden bg-[#F2F4ED]" style={{ aspectRatio: '16 / 10' }}>
@@ -381,7 +397,7 @@ function CaseStudyCard({ cs }) {
           Read case study →
         </span>
       </div>
-    </a>
+    </motion.a>
   )
 }
 
@@ -551,7 +567,12 @@ function Building() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-[#EBEBEB] border border-[#EBEBEB]">
         {BUILDS.map(({ title, subtitle, desc, tags, img, href, preview, cta }) => (
-          <div key={title} className="bg-white p-8 hover:bg-[#F2F4ED] transition-colors flex flex-col justify-between gap-8">
+          <motion.div
+            key={title}
+            className="bg-white p-8 hover:bg-[#F2F4ED] transition-colors flex flex-col justify-between gap-8"
+            whileHover={{ y: -4 }}
+            transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+          >
             <div className="flex items-start justify-end gap-4">
               <div className="flex flex-wrap gap-1.5 justify-end">
                 {tags.map(t => (
@@ -600,7 +621,7 @@ function Building() {
                 </a>
               )}
             </div>
-          </div>
+          </motion.div>
         ))}
       </div>
     </section>
@@ -747,7 +768,12 @@ function Testimonials() {
       {/* Quote cards */}
       <div className="grid md:grid-cols-3 gap-6">
         {TESTIMONIALS.map(({ quote, name, role }) => (
-          <div key={name} className="border border-[#EBEBEB] bg-white p-8 hover:bg-[#F2F4ED] transition-colors">
+          <motion.div
+            key={name}
+            className="border border-[#EBEBEB] bg-white p-8 hover:bg-[#F2F4ED] transition-colors"
+            whileHover={{ y: -4 }}
+            transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+          >
             <p className="font-quote text-[#1A1730] opacity-80 mb-6" style={{ fontSize: 17, lineHeight: 1.5 }}>
               "{quote}"
             </p>
@@ -755,7 +781,7 @@ function Testimonials() {
               <div className="text-sm font-semibold text-[#1A1730]">{name}</div>
               <div className="text-xs text-[#8DAA44]">{role}</div>
             </div>
-          </div>
+          </motion.div>
         ))}
       </div>
       </div>
@@ -992,12 +1018,14 @@ function FeaturedSection() {
 
       <div className="reveal grid md:grid-cols-3 gap-px bg-[#EBEBEB] border border-[#EBEBEB]">
         {FEATURES.map(({ platform, pub, title, desc, href }) => (
-          <a
+          <motion.a
             key={title}
             href={href}
             target="_blank"
             rel="noopener noreferrer"
             className="group bg-white p-8 hover:bg-[#F2F4ED] transition-colors flex flex-col justify-between gap-8"
+            whileHover={{ y: -4 }}
+            transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
           >
             <div>
               <div className="flex items-center gap-2 mb-6">
@@ -1019,7 +1047,7 @@ function FeaturedSection() {
             <span className="text-sm font-semibold text-[#5C3AFF] group-hover:text-[#8DAA44] transition-colors">
               Read →
             </span>
-          </a>
+          </motion.a>
         ))}
       </div>
     </section>
@@ -1067,11 +1095,21 @@ export default function App() {
   useEffect(() => { window.scrollTo(0, 0) }, [hash])
 
   return (
-    <>
+    <MotionConfig reducedMotion="user">
       <Nav />
-      {cs ? <CaseStudyPage cs={cs} /> : <Home />}
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.div
+          key={cs ? `work-${cs.slug}` : 'home'}
+          variants={pageVariants}
+          initial="initial"
+          animate="animate"
+          exit="exit"
+        >
+          {cs ? <CaseStudyPage cs={cs} /> : <Home />}
+        </motion.div>
+      </AnimatePresence>
       <Footer />
       <Analytics />
-    </>
+    </MotionConfig>
   )
 }

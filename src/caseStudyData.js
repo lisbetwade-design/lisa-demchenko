@@ -281,7 +281,7 @@ export const CASE_STUDIES = [
       timeline: '2024 – 2025',
       services: ['UX Strategy', 'Prototyping', 'Usability Testing', 'High-Fidelity UI'],
     },
-    heroImage: '/images/Energy Data Overview Dashboard.png',
+    heroImage: '/images/image.png',
     // Homepage card
     summary:
       'A complex automation/orchestration feature for an energy data platform — letting enterprise users build, chain, and branch their own workflows through an intuitive, scalable UI.',

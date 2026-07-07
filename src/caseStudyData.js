@@ -2,7 +2,7 @@
 // CASE STUDY CONTENT
 // ─────────────────────────────────────────────────────────────────────────────
 // Each entry drives BOTH the homepage card and a full case study page at
-// #/work/<slug>. The page template (CaseStudyPage.jsx) renders the `blocks`
+// /work/<slug>. The page template (CaseStudyPage.jsx) renders the `blocks`
 // array in order, so you can reorder, add, or remove sections per project —
 // the layout adapts to whatever you give it.
 //

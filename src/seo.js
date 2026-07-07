@@ -34,14 +34,34 @@ function upsertLink(rel, href) {
   el.setAttribute('href', href)
 }
 
+// Inject (or clear) a per-route JSON-LD <script>. Kept separate from the
+// static Person schema in index.html.
+const JSONLD_ID = 'route-jsonld'
+function setJsonLd(data) {
+  let el = document.getElementById(JSONLD_ID)
+  if (!data) {
+    if (el) el.remove()
+    return
+  }
+  if (!el) {
+    el = document.createElement('script')
+    el.type = 'application/ld+json'
+    el.id = JSONLD_ID
+    document.head.appendChild(el)
+  }
+  el.textContent = JSON.stringify(data)
+}
+
 // Imperatively set per-route <head> tags. Dependency-free — works for Google
 // (which executes JS) and for the prerender snapshot (which runs the page).
-export function useDocumentMeta({ title, description, path = '/', image }) {
+export function useDocumentMeta({ title, description, path = '/', image, keywords, jsonLd }) {
   const url = `${SITE_ORIGIN}${path}`
   const img = absUrl(image)
+  const jsonLdStr = jsonLd ? JSON.stringify(jsonLd) : null
   useEffect(() => {
     if (title) document.title = title
     upsertMeta('description', 'name', description)
+    if (keywords) upsertMeta('keywords', 'name', keywords)
     upsertLink('canonical', url)
 
     upsertMeta('og:title', 'property', title)
@@ -52,5 +72,7 @@ export function useDocumentMeta({ title, description, path = '/', image }) {
     upsertMeta('twitter:title', 'name', title)
     upsertMeta('twitter:description', 'name', description)
     upsertMeta('twitter:image', 'name', img)
-  }, [title, description, url, img])
+
+    setJsonLd(jsonLdStr ? JSON.parse(jsonLdStr) : null)
+  }, [title, description, url, img, keywords, jsonLdStr])
 }

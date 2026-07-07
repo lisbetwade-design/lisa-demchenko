@@ -10,13 +10,18 @@ import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import net from 'node:net'
 import { CASE_STUDIES } from '../src/caseStudyData.js'
+import { GUIDES } from '../src/guidesData.js'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const DIST = join(__dirname, '..', 'dist')
 const PORT = 4173
 const ORIGIN = `http://localhost:${PORT}`
 
-const ROUTES = ['/', ...CASE_STUDIES.map(c => `/work/${c.slug}`)]
+const ROUTES = [
+  '/',
+  ...CASE_STUDIES.map(c => `/work/${c.slug}`),
+  ...GUIDES.map(g => `/guides/${g.slug}`),
+]
 
 // Hosts we don't need for a static snapshot — blocking them avoids hangs.
 const BLOCK_HOSTS = [

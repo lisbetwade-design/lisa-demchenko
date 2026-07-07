@@ -12,6 +12,8 @@ import claudeGuideImg from './claude-guide.png'
 import reviuImg from './reviu.png'
 import { CASE_STUDIES, getCaseStudy } from './caseStudyData'
 import CaseStudyPage from './CaseStudyPage'
+import { getGuide, guideJsonLd } from './guidesData'
+import GuidePage from './GuidePage'
 import { useDocumentMeta } from './seo'
 
 // ─── Brand tokens as JS constants ───────────────────────────────────────────
@@ -212,7 +214,7 @@ function QuickLinks() {
     { label: 'Templates', sub: 'Figma templates & resources', href: 'https://www.figma.com/@posttesting' },
     { label: 'Writing', sub: "Product designer's stories", href: 'https://medium.com/@llsbet' },
     { label: 'Weekly Read', sub: 'Newsletter for designers', href: 'https://processtopixels.substack.com/' },
-    { label: 'AI-Powered Workflows', sub: 'Experiments & insights', href: '#' },
+    { label: 'AI-Powered Workflows', sub: 'Experiments & insights', href: '/guides/ai-powered-design-workflows' },
   ]
   return (
     <section className="border-y border-[#EBEBEB] bg-white">
@@ -515,7 +517,7 @@ const BUILDS = [
     desc: 'A practical, beginner-friendly guide to using Claude as a design partner.',
     tags: [{ label: 'Live', tool: false }],
     img: claudeGuideImg,
-    href: 'https://pixelandprocess.gumroad.com/l/claudeguide',
+    href: '/guides/intro-to-claude-for-designers',
   },
   {
     num: '03',
@@ -544,9 +546,8 @@ const BUILDS = [
     subtitle: 'Guide',
     desc: 'A practical guide showing exactly how AI fits inside real design work — from research to handoff, with annotated prompts you can use today.',
     tags: [{ label: 'Live', tool: false }],
-    href: 'https://pixelandprocess.gumroad.com/l/aipowereddesignguide',
-    preview: 'https://pixelandprocess.gumroad.com/l/aipowereddesignguide',
-    cta: 'Get it',
+    href: '/guides/ai-powered-design-workflows',
+    cta: 'Read more',
   },
   {
     num: '06',
@@ -1141,32 +1142,46 @@ function useLinkInterceptor() {
 export default function App() {
   const path = usePathRoute()
   useLinkInterceptor()
-  const match = path.match(/^\/work\/([\w-]+)/)
-  const cs = match ? getCaseStudy(match[1]) : null
+  const workMatch = path.match(/^\/work\/([\w-]+)/)
+  const cs = workMatch ? getCaseStudy(workMatch[1]) : null
+  const guideMatch = path.match(/^\/guides\/([\w-]+)/)
+  const guide = guideMatch ? getGuide(guideMatch[1]) : null
 
-  // Per-route meta for case studies (Home sets its own).
+  // Per-route meta (Home sets its own too; identical values are idempotent).
   const csTitle = cs ? `${cs.client} — ${Array.isArray(cs.title) ? cs.title.join(' ') : cs.title} · Lisa Demchenko` : null
+  const guideMeta = guide
+    ? {
+        title: guide.seoTitle || `${guide.title.join(' ')} · Lisa Demchenko`,
+        description: guide.metaDescription,
+        path: `/guides/${guide.slug}`,
+        image: guide.ogImage,
+        keywords: (guide.keywords || []).join(', '),
+        jsonLd: guideJsonLd(guide),
+      }
+    : null
   useDocumentMeta(
     cs
       ? { title: csTitle, description: cs.summary || cs.subtitle, path: `/work/${cs.slug}`, image: cs.heroImage }
-      : { title: 'Lisa Demchenko — Product Designer', description: 'Product designer and studio founder at the edge of design and AI.', path: '/', image: '/images/OG.png' }
+      : guideMeta || { title: 'Lisa Demchenko — Product Designer', description: 'Product designer and studio founder at the edge of design and AI.', path: '/', image: '/images/OG.png' }
   )
 
   // Scroll to top whenever the route changes
   useEffect(() => { window.scrollTo(0, 0) }, [path])
+
+  const routeKey = cs ? `work-${cs.slug}` : guide ? `guide-${guide.slug}` : 'home'
 
   return (
     <MotionConfig reducedMotion="user">
       <Nav />
       <AnimatePresence mode="wait" initial={false}>
         <motion.div
-          key={cs ? `work-${cs.slug}` : 'home'}
+          key={routeKey}
           variants={pageVariants}
           initial="initial"
           animate="animate"
           exit="exit"
         >
-          {cs ? <CaseStudyPage cs={cs} /> : <Home />}
+          {cs ? <CaseStudyPage cs={cs} /> : guide ? <GuidePage g={guide} /> : <Home />}
         </motion.div>
       </AnimatePresence>
       <Footer />

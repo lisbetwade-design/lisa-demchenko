@@ -46,7 +46,7 @@ function Hero({ cs }) {
       >
         <motion.a
           variants={{ initial: { opacity: 0, y: 16 }, animate: { opacity: 1, y: 0, transition: { duration: 0.55, ease: EASE } } }}
-          href="#/"
+          href="/"
           className="inline-flex items-center gap-2 text-xs font-semibold tracking-[0.12em] uppercase mb-12 transition-opacity hover:opacity-70"
           style={{ color: t.meta }}
         >
@@ -405,7 +405,7 @@ function NextProjects({ cs }) {
               More <em style={{ color: cs.accent }}>case studies.</em>
             </h2>
           </div>
-          <a href={`#/work/${next.slug}`} className="hidden md:inline-flex items-center gap-2 text-sm font-semibold text-[#1A1730] hover:opacity-70 transition-opacity">
+          <a href={`/work/${next.slug}`} className="hidden md:inline-flex items-center gap-2 text-sm font-semibold text-[#1A1730] hover:opacity-70 transition-opacity">
             Next: {next.client} →
           </a>
         </div>
@@ -413,7 +413,7 @@ function NextProjects({ cs }) {
           {others.map(o => (
             <motion.a
               key={o.slug}
-              href={`#/work/${o.slug}`}
+              href={`/work/${o.slug}`}
               className="group bg-white flex flex-col hover:bg-[#F2F4ED] transition-colors"
               style={{ '--cs-accent': o.accent }}
               whileHover={{ y: -4 }}

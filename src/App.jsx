@@ -12,6 +12,7 @@ import claudeGuideImg from './claude-guide.png'
 import reviuImg from './reviu.png'
 import { CASE_STUDIES, getCaseStudy } from './caseStudyData'
 import CaseStudyPage from './CaseStudyPage'
+import { useDocumentMeta } from './seo'
 
 // ─── Brand tokens as JS constants ───────────────────────────────────────────
 const PURPLE = '#5C3AFF'
@@ -80,7 +81,7 @@ function Nav() {
       transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
       className={`border-b border-[#EBEBEB] bg-[#FAFAFA] sticky top-0 z-50 transition-shadow duration-300 ${scrolled ? 'nav-shadow' : ''}`}>
       <div className="max-w-6xl mx-auto px-6 flex items-center justify-between h-16">
-        <a href="#/" className="font-serif text-[#1A1730] text-lg">
+        <a href="/" className="font-serif text-[#1A1730] text-lg">
           Lisa Demchenko<span style={{ color: PURPLE }}>.</span>
         </a>
         <div className="hidden md:flex items-center gap-3">
@@ -341,12 +342,12 @@ function Projects() {
 }
 
 // ─── Projects & Case Studies ─────────────────────────────────────────────────
-// Content lives in caseStudyData.js. Each card links to a full page at #/work/<slug>.
+// Content lives in caseStudyData.js. Each card links to a full page at /work/<slug>.
 function CaseStudyCard({ cs }) {
   const { slug, accent, category, client, title, summary, cardImage, metric, metricLabel, meta } = cs
   return (
     <motion.a
-      href={`#/work/${slug}`}
+      href={`/work/${slug}`}
       className="group bg-white flex flex-col hover:bg-[#F2F4ED] transition-colors"
       style={{ '--cs-accent': accent }}
       whileHover={{ y: -4 }}
@@ -900,7 +901,7 @@ function Footer() {
         </div>
         <div className="border-t border-[#EBEBEB] pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-xs text-[#B0AEC4]">
-            © 2025 Lisa Demchenko. All rights reserved.
+            © {new Date().getFullYear()} Lisa Demchenko. All rights reserved.
           </p>
           <div className="flex gap-6">
             {['Privacy Policy', 'Terms of Service'].map(l => (
@@ -1076,6 +1077,13 @@ function FeaturedSection() {
 // ─── Home ─────────────────────────────────────────────────────────────────────
 function Home() {
   useScrollReveal()
+  useDocumentMeta({
+    title: 'Lisa Demchenko — Product Designer',
+    description:
+      'Lisa Demchenko — product designer and studio founder at the edge of design and AI. Founder of Process to Pixels, a fractional design studio in Brussels.',
+    path: '/',
+    image: '/images/OG.png',
+  })
   return (
     <main>
       <Hero />
@@ -1093,25 +1101,59 @@ function Home() {
   )
 }
 
-// ─── Hash router ──────────────────────────────────────────────────────────────
-function useHashRoute() {
-  const [hash, setHash] = useState(() => window.location.hash)
+// ─── Path router ──────────────────────────────────────────────────────────────
+// Real path-based routing (crawlable URLs like /work/stndby) using the History
+// API. A single click interceptor turns internal <a href="/…"> into client-side
+// navigation without a full reload.
+function usePathRoute() {
+  const [path, setPath] = useState(() => window.location.pathname)
   useEffect(() => {
-    const onChange = () => setHash(window.location.hash)
-    window.addEventListener('hashchange', onChange)
-    return () => window.removeEventListener('hashchange', onChange)
+    const onChange = () => setPath(window.location.pathname)
+    window.addEventListener('popstate', onChange)
+    return () => window.removeEventListener('popstate', onChange)
   }, [])
-  return hash
+  return path
+}
+
+function useLinkInterceptor() {
+  useEffect(() => {
+    const onClick = e => {
+      if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return
+      const a = e.target.closest('a')
+      if (!a) return
+      const href = a.getAttribute('href')
+      // Only intercept same-origin, path-based links. Skip external, anchors,
+      // downloads, and new-tab links.
+      if (!href || !href.startsWith('/') || href.startsWith('//')) return
+      if (a.target === '_blank' || a.hasAttribute('download')) return
+      e.preventDefault()
+      if (href !== window.location.pathname) {
+        window.history.pushState({}, '', href)
+        window.dispatchEvent(new PopStateEvent('popstate'))
+      }
+    }
+    document.addEventListener('click', onClick)
+    return () => document.removeEventListener('click', onClick)
+  }, [])
 }
 
 // ─── App ──────────────────────────────────────────────────────────────────────
 export default function App() {
-  const hash = useHashRoute()
-  const match = hash.match(/^#\/work\/([\w-]+)/)
+  const path = usePathRoute()
+  useLinkInterceptor()
+  const match = path.match(/^\/work\/([\w-]+)/)
   const cs = match ? getCaseStudy(match[1]) : null
 
+  // Per-route meta for case studies (Home sets its own).
+  const csTitle = cs ? `${cs.client} — ${Array.isArray(cs.title) ? cs.title.join(' ') : cs.title} · Lisa Demchenko` : null
+  useDocumentMeta(
+    cs
+      ? { title: csTitle, description: cs.summary || cs.subtitle, path: `/work/${cs.slug}`, image: cs.heroImage }
+      : { title: 'Lisa Demchenko — Product Designer', description: 'Product designer and studio founder at the edge of design and AI.', path: '/', image: '/images/OG.png' }
+  )
+
   // Scroll to top whenever the route changes
-  useEffect(() => { window.scrollTo(0, 0) }, [hash])
+  useEffect(() => { window.scrollTo(0, 0) }, [path])
 
   return (
     <MotionConfig reducedMotion="user">
